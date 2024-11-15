@@ -54,7 +54,6 @@ pragma solidity >0.8.0;
 
 // Good luck! You've got this!
 
-
 interface NimPlayer
 {
     // Given a set of piles, return a pile number and a quantity of items to remove
@@ -68,18 +67,78 @@ interface NimPlayer
 }
 
 
+
 interface Nim
 {
     // fee is 0.001 ether, award the winner the rest
     function startMisere(NimPlayer a, NimPlayer b, uint256[] calldata piles) payable external;  
 }
 
-/* IMPLEMENT THIS:
-contract NimBoard is Nim
-{
+contract NimBoard is Nim {
+    function startMisere(NimPlayer a, NimPlayer b, uint256[] calldata piles) payable external {
+        // check money send is bigger than fee
+        require(msg.value > 0.001 ether, "Not enough gas fee");
 
+        // Initialize variable
+        uint256 win = msg.value - 0.001 ether;
+        uint256[] memory current_piles = piles;
+        bool player = true;
+        bool is_game_end = false;
+        uint pile;
+        uint number;
+        
+
+        // Main game play
+        while(!is_game_end) {
+            // Player a turn
+            if (player) {
+
+                // Get next move
+                (pile, number) = a.nextMove(current_piles);
+
+                // Check valid move
+                if(!is_valid_move(pile,number,piles)) {
+                    a.UlostBadMove();
+                    b.Uwon{value:win}();
+                    return;
+                }
+            // Player b turn
+            } else {
+                (pile, number) = b.nextMove(current_piles);
+                if(!is_valid_move(pile,number,piles)) {
+                    b.UlostBadMove();
+                    a.Uwon{value:win}();
+                    return;
+                }
+            }
+            current_piles[pile] -= number;
+            player = !player;
+            // Check continue condition
+            is_game_end = true;
+
+            for(uint i = 0; i < current_piles.length; i++) {
+                if (current_piles[i] != 0) {
+                    is_game_end = false;
+                }
+            }
+        }
+
+        if(player) {
+            b.Ulost();
+            a.Uwon{value:win}();
+        } else {
+            a.Ulost();
+            b.Uwon{value:win}();
+        }
+    }
+
+    function is_valid_move(uint pile, uint256 number, uint256[] calldata piles) internal pure returns (bool) {
+        if (pile > piles.length || piles[pile] < number) {
+            return false;
+        }
+        return true;
+    }
 }
-*/
 
 contract TrackingNimPlayer is NimPlayer
 {
@@ -139,6 +198,29 @@ contract Boring1NimPlayer is TrackingNimPlayer
     }
 }
 
+contract NimTesting {
+    NimBoard board;
+    TrackingNimPlayer[] players;
+
+    function Deploy() public {
+        board = new NimBoard();
+        players.push(new Boring1NimPlayer());
+        players.push(new Boring1NimPlayer());
+        players.push(new Boring1NimPlayer());
+    }
+
+    fallback() external payable {}
+    receive() external payable {}
+
+    function play(uint p1, uint p2, uint256[] calldata piles) external payable {
+        board.startMisere{value:msg.value}(players[p1], players[p2], piles);
+    }
+
+    function viewPlayer(uint p) external view returns (uint, uint, uint, uint) {
+        return players[p].results();
+    }
+
+}
 
 /*
 Test vectors:

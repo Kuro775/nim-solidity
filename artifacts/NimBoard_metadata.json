@@ -1,0 +1,69 @@
+{
+	"compiler": {
+		"version": "0.8.26+commit.8a97fa7a"
+	},
+	"language": "Solidity",
+	"output": {
+		"abi": [
+			{
+				"inputs": [
+					{
+						"internalType": "contract NimPlayer",
+						"name": "a",
+						"type": "address"
+					},
+					{
+						"internalType": "contract NimPlayer",
+						"name": "b",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256[]",
+						"name": "piles",
+						"type": "uint256[]"
+					}
+				],
+				"name": "startMisere",
+				"outputs": [],
+				"stateMutability": "payable",
+				"type": "function"
+			}
+		],
+		"devdoc": {
+			"kind": "dev",
+			"methods": {},
+			"version": 1
+		},
+		"userdoc": {
+			"kind": "user",
+			"methods": {},
+			"version": 1
+		}
+	},
+	"settings": {
+		"compilationTarget": {
+			"nim.sol": "NimBoard"
+		},
+		"evmVersion": "cancun",
+		"libraries": {},
+		"metadata": {
+			"bytecodeHash": "ipfs"
+		},
+		"optimizer": {
+			"enabled": false,
+			"runs": 200
+		},
+		"remappings": []
+	},
+	"sources": {
+		"nim.sol": {
+			"keccak256": "0x9c09b97cc86fc5eea9fc7fe5f895633e2c4ecfa4eeda0231a1cf013e659d04cd",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://96208e522e069d1bd685a26b71bb861df481608b216a939817fbb56fd3fb3ebc",
+				"dweb:/ipfs/QmPN4dBQh1Agyut3QEkVxAh2ZW8T5FEDDjmYg4iToCFLfY"
+			]
+		}
+	},
+	"version": 1
+}
