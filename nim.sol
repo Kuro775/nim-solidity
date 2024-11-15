@@ -75,7 +75,7 @@ interface Nim
 }
 
 contract NimBoard is Nim {
-    function startMisere(NimPlayer a, NimPlayer b, uint256[] calldata piles) payable external {
+    function startMisere(NimPlayer a, NimPlayer b, uint256[] calldata piles) override payable external {
         // check money send is bigger than fee
         require(msg.value > 0.001 ether, "Not enough gas fee");
 
@@ -87,15 +87,12 @@ contract NimBoard is Nim {
         uint pile;
         uint number;
         
-
         // Main game play
         while(!is_game_end) {
             // Player a turn
             if (player) {
-
                 // Get next move
                 (pile, number) = a.nextMove(current_piles);
-
                 // Check valid move
                 if(!is_valid_move(pile,number,piles)) {
                     a.UlostBadMove();
@@ -113,16 +110,15 @@ contract NimBoard is Nim {
             }
             current_piles[pile] -= number;
             player = !player;
+
             // Check continue condition
             is_game_end = true;
-
             for(uint i = 0; i < current_piles.length; i++) {
                 if (current_piles[i] != 0) {
                     is_game_end = false;
                 }
             }
         }
-
         if(player) {
             b.Ulost();
             a.Uwon{value:win}();
@@ -133,7 +129,7 @@ contract NimBoard is Nim {
     }
 
     function is_valid_move(uint pile, uint256 number, uint256[] calldata piles) internal pure returns (bool) {
-        if (pile > piles.length || piles[pile] < number) {
+        if (pile > piles.length || piles[pile] < number || number <= 0) {
             return false;
         }
         return true;
@@ -212,14 +208,14 @@ contract NimTesting {
     fallback() external payable {}
     receive() external payable {}
 
-    function play(uint p1, uint p2, uint256[] calldata piles) external payable {
-        board.startMisere{value:msg.value}(players[p1], players[p2], piles);
+    function play(uint p1, uint p2, uint256[] calldata piles, uint value) external {
+        value *= 0.001 ether;
+        board.startMisere{value: value}(players[p1], players[p2], piles);
     }
 
     function viewPlayer(uint p) external view returns (uint, uint, uint, uint) {
         return players[p].results();
     }
-
 }
 
 /*

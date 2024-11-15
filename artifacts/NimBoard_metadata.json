@@ -57,11 +57,11 @@
 	},
 	"sources": {
 		"nim.sol": {
-			"keccak256": "0x9c09b97cc86fc5eea9fc7fe5f895633e2c4ecfa4eeda0231a1cf013e659d04cd",
+			"keccak256": "0x50848b9b3badc997143f96deaf52bdd8239fe12f3ec36a2a53377f5d0f4fb2f7",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://96208e522e069d1bd685a26b71bb861df481608b216a939817fbb56fd3fb3ebc",
-				"dweb:/ipfs/QmPN4dBQh1Agyut3QEkVxAh2ZW8T5FEDDjmYg4iToCFLfY"
+				"bzz-raw://0a2849c90f878b5c98a62e643efb43ffb1eab7942a43d3364912dff392471e6a",
+				"dweb:/ipfs/QmaCUNKJatkBWnVSP19biyDDted1bVt6oMAbXx4trzgHuF"
 			]
 		}
 	},
